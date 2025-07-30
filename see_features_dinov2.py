@@ -1,12 +1,14 @@
+import sys
 import os
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 os.environ['INFERENCE'] = '1'
+import requests
 import torch
 import numpy as np
 from PIL import Image
 import base64
 from io import BytesIO
-import requests
+
 from pixel_matcher import PixelMatcher
 
 def resize(img, target_res=224, resize=True, to_pil=True, edge=False, background=0):
@@ -86,14 +88,16 @@ def get_dino_features(img=None):
 
 
 img_size = 640
-img1_path = './flower1.png' # path to the source image
-img1 = resize(Image.open(img1_path).convert('RGB'), target_res=img_size, resize=True, to_pil=True, background=255)
 
-img2_path = './flower2.png' # path to the source image
+img1_path = sys.argv[1]
+img2_path = sys.argv[2]
+
+img1 = resize(Image.open(img1_path).convert('RGB'), target_res=img_size, resize=True, to_pil=True, background=255)
 img2 = resize(Image.open(img2_path).convert('RGB'), target_res=img_size, resize=True, to_pil=True, background=255)
 
 feat1_dino = get_dino_features(img=img1)
 feat2_dino = get_dino_features(img=img2)
+
 torch.cuda.empty_cache()
 torch.cuda.ipc_collect()
 

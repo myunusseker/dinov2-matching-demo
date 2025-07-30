@@ -10,10 +10,12 @@ Using powerful vision transformer embeddings from DINOv2, this tool lets you cli
 
 ## 📦 Requirements
 
+This repository has been tested with the following packages. It may work with older versions, but we recommend these for optimal GPU efficiency.
 - `torch==2.7.1`
 - `xformers==0.0.31.post1`
 - `triton`
 - `Pillow`
+- `Flask`
 - Your custom modules: `resize`, `get_dino_features`, and `PixelMatcher`
 
 Make sure your environment has a working GPU setup for efficient feature extraction.
